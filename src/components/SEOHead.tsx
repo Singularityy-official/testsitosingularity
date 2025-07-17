@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 
 interface SEOHeadProps {
@@ -77,6 +76,43 @@ const SEOHead = ({ title, description, keywords, canonical, ogImage }: SEOHeadPr
     if (ogImage) {
       updateTwitterMeta('twitter:image', ogImage);
     }
+// Structured Data - JSON-LD Schema
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Singularity Dream",
+  "url": "https://singularitydream.it",
+  "logo": "https://singularitydream.it/logo.png",
+  "image": "https://singularitydream.it/cover.jpg",
+  "description": description,
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "IT",
+    "addressLocality": "Italia"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+39 333 1234567",
+    "contactType": "customer support",
+    "areaServed": "IT"
+  },
+  "sameAs": [
+    "https://www.trustpilot.com/review/singularitydream.it"
+  ]
+};
+
+// Rimuove script vecchio (se già presente)
+const existingJsonLd = document.getElementById("seo-json-ld");
+if (existingJsonLd) {
+  existingJsonLd.remove();
+}
+
+// Inserisce lo script JSON-LD
+const script = document.createElement("script");
+script.type = "application/ld+json";
+script.id = "seo-json-ld";
+script.text = JSON.stringify(jsonLd);
+document.head.appendChild(script);
 
   }, [title, description, keywords, canonical, ogImage]);
 
